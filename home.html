@@ -1,0 +1,482 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Adlaw profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      /* Spartan sun background */
+      background: url("sun.gif") center center / cover no-repeat fixed;
+      color: #fdf3d2;
+      padding: 20px;
+    }
+
+    .profile-wrapper {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(10, 4, 4, 0.94);           /* dark armor */
+      border-radius: 24px;
+      padding: 24px 20px 28px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      position: relative;
+      border: 1px solid #c8a55f;                  /* gold edge */
+      backdrop-filter: blur(16px);
+      color: #fdf3d2;
+    }
+
+    .avatar {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid #c8a55f;                  /* gold ring */
+      box-shadow: 0 10px 25px rgba(156, 20, 26, 0.8);
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .verified-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      cursor: default;
+    }
+
+    .verified-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 0 0 1px #c8a55f;
+    }
+
+    .verified-tooltip {
+      position: absolute;
+      bottom: 130%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(20, 8, 8, 0.96);
+      color: #fdf3d2;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      white-space: nowrap;
+      border: 1px solid #c8a55f;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease;
+    }
+
+    .verified-wrapper:hover .verified-tooltip {
+      opacity: 1;
+    }
+
+    .tagline {
+      font-size: 0.9rem;
+      color: #f3c26b;                             /* warm yellow */
+      text-align: center;
+    }
+
+    .social-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .social-btn {
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      border-radius: 999px;
+      border: 1px solid #c8a55f;
+      background: linear-gradient(135deg, #fbe3a3, #f1b35b);
+      color: #3a0808;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      box-shadow: 0 6px 14px rgba(158, 19, 22, 0.7);
+    }
+
+    .social-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(158, 19, 22, 0.85);
+      background: linear-gradient(135deg, #f1b35b, #d47b2b);
+    }
+
+    .social-btn span.icon {
+      font-size: 1rem;
+    }
+
+    .bio {
+      margin-top: 6px;
+      padding: 10px 12px;
+      width: 100%;
+      border-radius: 14px;
+      background: rgba(22, 9, 9, 0.95);
+      border: 1px dashed #c8a55f;
+      font-size: 0.9rem;
+      color: #fdf3d2;
+      text-align: left;
+      white-space: pre-line;
+    }
+
+    .happy-new-year {
+      margin-top: 14px;
+      width: 100%;
+      border-radius: 16px;
+      border: 2px solid #c8a55f;
+      padding: 10px 12px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 800;
+      font-size: 0.9rem;
+      color: #3a0808;
+      background: rgba(249, 216, 133, 0.98);
+      box-shadow: 0 10px 24px rgba(158, 19, 22, 0.65);
+    }
+
+    .happy-new-year small {
+      display: block;
+      margin-top: 4px;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      opacity: 0.9;
+    }
+
+    @keyframes glow {
+      0%   { box-shadow: 0 10px 24px rgba(158, 19, 22, 0.5); }
+      50%  { box-shadow: 0 12px 30px rgba(200, 165, 95, 0.65); }
+      100% { box-shadow: 0 10px 24px rgba(158, 19, 22, 0.5); }
+    }
+
+    .happy-new-year {
+      animation: glow 2.4s ease-in-out infinite;
+    }
+
+    footer {
+      margin-top: 4px;
+      font-size: 0.68rem;
+      color: #f3c26b;
+      text-align: center;
+      opacity: 0.9;
+    }
+
+    /* ---- MUSIC PLAYER STYLE ---- */
+    .music-player {
+      width: 100%;
+      margin-top: 6px;
+      padding: 12px 10px;
+      border-radius: 18px;
+      background: rgba(22, 9, 9, 0.96);
+      border: 1px solid #c8a55f;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .waveform {
+      width: 100%;
+      height: 28px;
+      background: linear-gradient(
+        to right,
+        #9e1316 10%,
+        #c43a32 20%,
+        #9e1316 30%,
+        #c43a32 40%,
+        #9e1316 50%,
+        #c43a32 60%,
+        #9e1316 70%,
+        #c43a32 80%,
+        #9e1316 90%
+      );
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      opacity: 0.95;
+    }
+
+    .wave-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 40%;
+      height: 100%;
+      background: rgba(10, 4, 4, 0.7);
+      transform: translateX(0);
+      transition: transform 0.15s linear;
+    }
+
+    .music-controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 4px;
+    }
+
+    .music-icon-btn,
+    .music-play-btn {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      background: none;
+      color: #fdf3d2;
+    }
+
+    .music-icon-btn {
+      font-size: 1rem;
+      padding: 4px 6px;
+    }
+
+    .music-play-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #fbe3a3;
+      color: #3a0808;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      box-shadow: 0 6px 14px rgba(158, 19, 22, 0.8);
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .music-play-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 3px 8px rgba(158, 19, 22, 0.8);
+    }
+
+    #seek-bar {
+      width: 100%;
+      margin-top: 4px;
+      accent-color: #c8a55f;
+    }
+
+    .music-time {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: #f3c26b;
+    }
+
+    .music-title-wrap {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 999px;
+      border: 1px solid #c8a55f;
+      background: rgba(22, 9, 9, 0.95);
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+    }
+
+    .music-title-track {
+      display: inline-flex;
+      white-space: nowrap;
+      animation: scroll-title 4s linear infinite;
+    }
+
+    .music-title-track span {
+      color: #fdf3d2;
+      font-size: 0.8rem;
+      padding: 4px 16px 4px 0;
+    }
+
+    @keyframes scroll-title {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 14px;
+      left: 16px;
+      font-size: 0.85rem;
+      color: #fdf3d2;
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(22, 9, 9, 0.9);
+      border: 1px solid #c8a55f;
+    }
+
+    .back-btn:hover {
+      background: rgba(56, 15, 15, 0.95);
+    }
+  </style>
+</head>
+<body>
+
+  <main class="profile-wrapper">
+    
+
+    <div class="avatar">
+      <img src="adlawan.png" alt="Your profile">
+    </div>
+
+    <h1 class="name">
+      Adlaw
+      <span class="verified-wrapper">
+        <img src="dragon.png" alt="Verified icon" class="verified-icon">
+        <span class="verified-tooltip">Vanaheim</span>
+      </span>
+    </h1>
+
+    <p class="tagline">
+      Adlaw, the Visayan sun deity of Philippine mythology, is a radiant god who governs daylight and the cycles of nature, symbolizing vitality, balance, and the life-giving power of the sun.
+    </p>
+
+    <div class="music-title-wrap">
+      <div class="music-title-track">
+        <span>The Sun God  |</span>
+        <span>The Sun God  |</span>
+        <span>The Sun God  |</span>
+        <span>The Sun God  |</span>
+        <span>The Sun God  |</span>
+      </div>
+    </div>
+
+    <div class="music-player">
+      <div class="waveform">
+        <div class="wave-bar"></div>
+      </div>
+
+      <div class="music-controls-row">
+        <button class="music-icon-btn" id="back-btn">⏮</button>
+        <button class="music-play-btn" id="play-toggle">▶</button>
+        <button class="music-icon-btn" id="forward-btn">⏭</button>
+      </div>
+
+      <input type="range" id="seek-bar" min="0" value="0" step="0.1">
+
+      <div class="music-time">
+        <span id="current-time">0:00</span>
+        <span id="duration">0:00</span>
+      </div>
+    </div>
+
+    <audio id="bg-music" src="One piece Soundtrack - Nikas Theme - Joy Boy Ost  The God Of Sun.mp3"></audio>
+
+    <div class="happy-new-year">
+      IGN: Adlaw
+      <small> < Vanaheim ></small>
+      <small> Current Badge - 148</small>
+    </div>
+
+    <div class="social-links">
+      <a class="social-btn" href="https://account.aq.com/CharPage?id=adlaw" target="_blank" rel="noopener">
+        <span class="icon">
+          <img src="guild-removebg-preview.png" alt="Charpage" style="width:18px;height:18px;">
+        </span>
+        <span>Charpage</span>
+      </a>
+
+      <a class="social-btn" href="https://discord.gg/aqwvanaheim" target="_blank" rel="noopener">
+        <span class="icon">
+          <img src="vvanahq.png" alt="TikTok" style="width:18px;height:18px;">
+        </span>
+        <span>Vanaheim</span>
+      </a>
+
+    </div>
+
+    <footer>Join Vana!</footer>
+  </main>
+
+  <script>
+    const audio = document.getElementById('bg-music');
+    const playToggle = document.getElementById('play-toggle');
+    const seekBar = document.getElementById('seek-bar');
+    const currentTimeEl = document.getElementById('current-time');
+    const durationEl = document.getElementById('duration');
+    const waveBar = document.querySelector('.wave-bar');
+
+    let isPlaying = false;
+
+    function formatTime(sec) {
+      sec = Math.floor(sec || 0);
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return m + ':' + (s < 10 ? '0' + s : s);
+    }
+
+    audio.addEventListener('loadedmetadata', () => {
+      seekBar.max = audio.duration;
+      durationEl.textContent = formatTime(audio.duration);
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      seekBar.value = audio.currentTime;
+      currentTimeEl.textContent = formatTime(audio.currentTime);
+      const progress = audio.currentTime / audio.duration || 0;
+      waveBar.style.transform = 'translateX(' + (progress * 60) + '%)';
+    });
+
+    seekBar.addEventListener('input', () => {
+      audio.currentTime = seekBar.value;
+    });
+
+    playToggle.addEventListener('click', () => {
+      if (!isPlaying) {
+        audio.play().then(() => {
+          isPlaying = true;
+          playToggle.textContent = '⏸';
+        }).catch(() => {
+          alert('Music blocked or file not found. Check the mp3 name.');
+        });
+      } else {
+        audio.pause();
+        isPlaying = false;
+        playToggle.textContent = '▶';
+      }
+    });
+
+    document.getElementById('back-btn').addEventListener('click', () => {
+      audio.currentTime = Math.max(0, audio.currentTime - 5);
+    });
+
+    document.getElementById('forward-btn').addEventListener('click', () => {
+      audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
+    });
+  </script>
+</body>
+</html>
